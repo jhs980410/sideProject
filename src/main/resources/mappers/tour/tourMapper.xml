@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.joblessfriend.tour.dao.TourMapper">
+
+    <select id="selectAllFestivals" resultType="com.joblessfriend.tour.dto.TourFestivalDto">
+        SELECT
+            content_id     AS contentId,
+            title,
+            addr1,
+            event_start_date AS eventStartDate,
+            event_end_date   AS eventEndDate,
+            tel,
+            homepage,
+            first_image     AS firstImage,
+            mapx,
+            mapy
+        FROM
+            festival
+    </select>
+
+    <insert id="insertFestival" parameterType="com.joblessfriend.tour.dto.TourFestivalDto">
+        INSERT INTO festival (
+            content_id,
+            title,
+            addr1,
+            event_start_date,
+            event_end_date,
+            tel,
+            first_image,
+            mapx,
+            mapy
+        ) VALUES (
+                     #{contentId},
+                     #{title},
+                     #{addr1},
+                     #{eventStartDate},
+                     #{eventEndDate},
+                     #{tel},
+                     #{firstImage},
+                     #{mapX},
+                     #{mapY}
+                 )
+    </insert>
+
+</mapper>
+
+

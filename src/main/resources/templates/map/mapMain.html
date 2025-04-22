@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>전체지도</title>
+    <!-- 필수 JS SDK -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous">
+    </script>
+</head>
+<body>
+<div id="map" style="width:100%; height:500px;"></div>
+
+<!-- SDK-->
+<script th:src="@{'https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=' + ${clientId}}"></script>
+
+
+<p>Client ID: [[${clientId}]]</p>
+
+<!-- 지도 생성 및 마커 -->
+<script type="text/javascript">
+    var map = new naver.maps.Map('map', {
+        center: new naver.maps.LatLng(37.5665, 126.9780),
+        zoom: 10
+    });
+
+    var marker = new naver.maps.Marker({
+        position: new naver.maps.LatLng(37.5665, 126.9780),
+        map: map,
+        title: "서울특별시청"
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>메인화면</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<header>
+    <div class="header_top">
+        <input class="area" type="button" value="" onclick="">
+        <input class="area" type="button" value="" onclick="">
+        <input class="area" type="button" value="" onclick="">
+        <input class="area" type="button" value="" onclick="">
+        <input class="area" type="button" value="" onclick="">
+        <input class="area" type="button" value="" onclick="">
+        <input class="area" type="button" value="" onclick="">
+        <input class="area" type="button" value="" onclick="">
+        <input class="area" type="button" value="" onclick="">
+        <input class="area" type="button" value="" onclick="">
+
+
+    </div>
+    <div style="text-align: center; margin-top: 10px;">
+        <button class="btn btn-outline-primary" onclick="location.href='/map/naver'">
+            📍 전체 지도 보기
+        </button>
+    </div>
+</header>
+
+<main class="main-container">
+    <!-- 타이틀 -->
+
+
+    <!-- 필터 / 정렬 옵션 (선택 사항) -->
+    <section class="section-filter">
+        <select class="filter-region">
+            <option value="">전체 지역</option>
+            <option value="1">서울</option>
+            <option value="2">인천</option>
+            <option value="3">대전</option>
+            <option value="4">대구</option>
+            <option value="5">광주</option>
+            <option value="6">부산</option>
+            <option value="7">울산</option>
+            <option value="8">세종특별자치시</option>
+            <option value="31">경기도</option>
+            <option value="32">강원특별자치도</option>
+        </select>
+
+
+        <label>
+            <select class="filter-sort">
+                <option value="popular">인기순</option>
+                <option value="latest">최신순</option>
+            </select>
+        </label>
+    </section>
+
+    <!-- 관광지 카드 리스트 -->
+    <section class="tour-list">
+        <!-- JS로 아래 카드 여러 개 동적 생성 -->
+
+
+    </section>
+</main>
+
+<script th:inline="javascript">
+    let areaObj = [[${areaJson}]];
+    let areaJsonTxt = JSON.parse(areaObj);
+
+    let areaJsonList = areaJsonTxt.response.body.items.item;
+    $(".area").each(function(index) {
+        $(this).val(areaJsonList[index].name);
+        $(this).attr("data-code", areaJsonList[index].code);
+    });
+
+    let festivalObj = [[${festivalJson}]];
+    let festivalJsonTxt = JSON.parse(festivalObj);
+    let festivalJsonList = festivalJsonTxt.response.body.items.item;
+
+    let currentIndex = 0;
+    let slideCount = 4;
+
+    function getCurrentSlideItems() {
+        let endIndex = currentIndex + slideCount;
+        let sliced = [];
+
+        for (let i = 0; i < slideCount; i++) {
+            let idx = (currentIndex + i) % festivalJsonList.length;
+            sliced.push(festivalJsonList[idx]);
+        }
+
+        return sliced;
+    }
+
+
+    function formatDate(dateStr) {
+        if (!dateStr || dateStr.length !== 8) return "-";
+        const year = dateStr.substring(0, 4);
+        const month = dateStr.substring(4, 6);
+        const day = dateStr.substring(6, 8);
+        return `${year}.${month}.${day}`;
+    }
+
+
+    function nextSlide() {
+        currentIndex += 1;
+        if (currentIndex >= festivalJsonList.length) {
+            currentIndex = 0;
+        }
+        renderSlide(getCurrentSlideItems());
+    }
+
+
+    function renderSlide(items) {
+        const container = document.querySelector(".tour-list");
+        container.innerHTML = "";
+
+        items.forEach(item => {
+            container.innerHTML += `
+        <div class="tour-card">
+            <img src="${item.firstimage}" alt="${item.title}">
+            <div class="tour-info">
+                <h4>${item.title}</h4>
+                <p>${item.addr1}</p>
+                <p>${formatDate(item.eventstartdate)} ~ ${formatDate(item.eventenddate)}</p>
+
+            </div>
+        </div>
+        `;
+        });
+    }
+
+    // ✅ 화면 진입 시 최초 렌더링
+    renderSlide(getCurrentSlideItems());
+    // 3초마다 자동으로 다음 슬라이드
+    setInterval(nextSlide, 2000);
+
+    /*item.title              // 행사명
+    item.addr1              // 주소
+    item.eventstartdate     // 시작일 (20250418 → 날짜 포맷 필요)
+    item.eventenddate       // 종료일
+    item.firstimage         // 이미지 URL
+    item.contentid          // 상세정보 API 호출용 ID */
+</script>
+
+<!-- 외부 JS 파일 연결 -->
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>
