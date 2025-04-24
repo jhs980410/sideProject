@@ -9,28 +9,10 @@
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-<header>
-    <div class="header_top">
-        <input class="area" type="button" value="" onclick="">
-        <input class="area" type="button" value="" onclick="">
-        <input class="area" type="button" value="" onclick="">
-        <input class="area" type="button" value="" onclick="">
-        <input class="area" type="button" value="" onclick="">
-        <input class="area" type="button" value="" onclick="">
-        <input class="area" type="button" value="" onclick="">
-        <input class="area" type="button" value="" onclick="">
-        <input class="area" type="button" value="" onclick="">
-        <input class="area" type="button" value="" onclick="">
 
 
-    </div>
-    <div style="text-align: center; margin-top: 10px;">
-        <button class="btn btn-outline-primary" onclick="location.href='/map/naver'">
-            📍 전체 지도 보기
-        </button>
-    </div>
-</header>
-
+<div th:replace="common/header :: header"></div>
+<!--header 호출-->
 <main class="main-container">
     <!-- 타이틀 -->
 
@@ -81,7 +63,7 @@
     let festivalObj = [[${festivalJson}]];
     let festivalJsonTxt = JSON.parse(festivalObj);
     let festivalJsonList = festivalJsonTxt.response.body.items.item;
-
+    console.log(festivalJsonList);
     let currentIndex = 0;
     let slideCount = 4;
 
@@ -122,7 +104,7 @@
 
         items.forEach(item => {
             container.innerHTML += `
-        <div class="tour-card">
+        <div class="tour-card" data-id="${item.contentid}">
             <img src="${item.firstimage}" alt="${item.title}">
             <div class="tour-info">
                 <h4>${item.title}</h4>

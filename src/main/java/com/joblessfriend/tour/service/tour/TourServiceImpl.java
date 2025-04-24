@@ -365,5 +365,15 @@ public class TourServiceImpl implements TourService {
         return response.getBody();
     }
 
+    @Override
+    public boolean existsFestival(String contentId) {
+        return tourMapper.existsFestival(contentId);
+    }
+
+    @Override
+    public TourFestivalDto selectFestivalDetail(String contentid) {
+        return tourMapper.selectFestivalDetail(contentid);
+    }
+
 
 }

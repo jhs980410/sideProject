@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>관광지 상세보기</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="/css/detailView.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<div th:replace="common/header :: header"></div>
+
+<main class="container">
+    <section class="tour-detail-wrapper">
+
+        <!-- 타이틀 -->
+        <h2 class="tour-title" id="title">관광지 제목</h2>
+
+        <!-- 대표 이미지 -->
+        <div class="tour-image">
+            <img id="image" src="/images/default.jpg" alt="대표 이미지" />
+        </div>
+
+        <!-- 기본 정보 -->
+        <div class="tour-info">
+            <p><strong>주소:</strong> <span id="addr">-</span></p>
+            <p><strong>기간:</strong> <span id="date">-</span></p>
+        </div>
+
+        <!-- 소개 글 -->
+        <div class="tour-desc">
+            <h4>행사 소개</h4>
+            <p id="desc">내용을 불러오는 중입니다...</p>
+        </div>
+
+    </section>
+</main>
+</body>
+<script th:inline="javascript">
+    let areaObj = [[${areaJson}]];   // 지역 코드들
+    let areaJsonTxt = JSON.parse(areaObj); // json변환
+
+    let areaJsonList = areaJsonTxt.response.body.items.item;
+
+
+    $(".area").each(function (index) {
+        $(this).val(areaJsonList[index].name);
+        $(this).attr("data-code", areaJsonList[index].code);
+    }); // 반복문 , 헤더에 삽입
+
+</script>
+</html>

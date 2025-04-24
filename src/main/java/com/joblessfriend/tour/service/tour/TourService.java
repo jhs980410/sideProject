@@ -68,4 +68,9 @@ public interface TourService {
             String showFlag
     );
 
+    boolean existsFestival(String contentId);
+
+    TourFestivalDto selectFestivalDetail(String contentId);
+
+
 }

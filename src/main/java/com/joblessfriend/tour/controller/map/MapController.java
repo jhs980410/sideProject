@@ -30,7 +30,7 @@ public class MapController {
 
     @GetMapping("/naver")
     public String mapPage(Model model) throws JsonProcessingException {
-        String festValList = tourService.getFestivalList("20250422","20250522","D","Y",1,200);
+        String festValList = tourService.getFestivalList("20250422","20250722","D","Y",1,200);
         ObjectMapper objectMapper = new ObjectMapper();
         //Jackson 라이브러리의 ObjectMapper란, Java 객체를 JSON으로 또는 반대로 JSON을 Java 객체로 역직렬화하는 도구
         JsonNode root = objectMapper.readTree(festValList) ;
@@ -40,22 +40,25 @@ public class MapController {
         for (JsonNode item : items) {
             TourFestivalDto festival = new TourFestivalDto();
             festival.setAddr1(item.path("addr1").asText());
-            festival.setMapX(item.path("mapX").asDouble());
-            festival.setMapY(item.path("mapY").asDouble());
+            festival.setMapX(item.path("mapx").asDouble());
+            festival.setMapY(item.path("mapy").asDouble());
             festival.setContentId(item.path("contentid").asText());
             festival.setTitle(item.path("title").asText());
-            festival.setEventEndDate(item.path("eventEndDate").asText());
-            festival.setEventStartDate(item.path("eventStartDate").asText());
+            festival.setEventEndDate(item.path("eventenddate").asText());
+            festival.setEventStartDate(item.path("eventstartdate").asText());
             festival.setTel(item.path("tel").asText());
-            festival.setFirstImage(item.path("firstImage").asText());
+            festival.setFirstImage(item.path("firstimage").asText());
             festivalList.add(festival);
         } // Jackson으로 JSON 파싱
 
         for (TourFestivalDto festival : festivalList) {
-            tourService.insertFestival(festival);
+            if (!tourService.existsFestival(festival.getContentId())) {
+                tourService.insertFestival(festival);
+            }
         }
-        model.addAttribute("clientId", naverMapClientId);
 
+        model.addAttribute("clientId", naverMapClientId);
+        model.addAttribute("festivalList", festivalList);
 
         return "map/mapMain";
     }
