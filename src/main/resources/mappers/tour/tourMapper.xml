@@ -51,7 +51,16 @@
         WHERE content_id = #{contentId}
     </select>
     <select id="selectFestivalDetail" parameterType="com.joblessfriend.tour.dto.TourFestivalDto">
-        SELECT *
+        SELECT
+            CONTENT_ID        AS contentId,
+            TITLE             AS title,
+            ADDR1             AS addr1,
+            EVENT_START_DATE  AS eventStartDate,
+            EVENT_END_DATE    AS eventEndDate,
+            TEL               AS tel,
+            FIRST_IMAGE       AS firstImage,
+            MAPX              AS mapX,
+            MAPY              AS mapY
         FROM festival
         WHERE content_id = #{contentId}
     </select>

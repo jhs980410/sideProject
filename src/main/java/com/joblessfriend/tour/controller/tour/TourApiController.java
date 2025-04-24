@@ -38,6 +38,7 @@ public class TourApiController {
     public String getFestivalDetail(@RequestParam String contentId, Model model) {
         TourFestivalDto dto = tourService.selectFestivalDetail(contentId);
         model.addAttribute("festival", dto); // 객체 그대로 넘김
+        System.out.println(dto.toString());
         return "tour/tourDetailView";
     }
 

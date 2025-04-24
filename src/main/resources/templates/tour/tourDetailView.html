@@ -27,7 +27,8 @@
         <!-- 기본 정보 -->
         <div class="tour-info">
             <p><strong>주소:</strong> <span id="addr">-</span></p>
-            <p><strong>기간:</strong> <span id="date">-</span></p>
+            <p><strong>기간:</strong> <span id="date">-</span> ~ <span id="enddate">-</span></p>
+            <p><strong>전화번호:</strong> <span id="tel">-</span> </p>
         </div>
 
         <!-- 소개 글 -->
@@ -39,6 +40,7 @@
     </section>
 </main>
 </body>
+<script src="/js/detailView.js"></script>
 <script th:inline="javascript">
     let areaObj = [[${areaJson}]];   // 지역 코드들
     let areaJsonTxt = JSON.parse(areaObj); // json변환
@@ -50,6 +52,28 @@
         $(this).val(areaJsonList[index].name);
         $(this).attr("data-code", areaJsonList[index].code);
     }); // 반복문 , 헤더에 삽입
+
+    let festival = [[${festival}]];
+
+    //날짜변환//
+    function formatDate(yyyymmdd) {
+        if (!yyyymmdd || yyyymmdd.length !== 8) return "날짜 없음";
+
+        const year = yyyymmdd.substring(0, 4);
+        const month = yyyymmdd.substring(4, 6);
+        const day = yyyymmdd.substring(6, 8);
+
+        return `${year}년 ${month}월 ${day}일`;
+    }
+
+
+    $("#title").text(festival.title); //제목
+    $("#image").attr("src", festival.firstImage); //대표사진
+    $("#addr").text(festival.addr1);//주소
+    $("#date").text(formatDate(festival.eventStartDate)); //시작날짜
+    $("#enddate").text(formatDate(festival.eventEndDate)); // 종료날짜
+    $("#tel").text(festival.tel);//주소
+
 
 </script>
 </html>
