@@ -31,7 +31,8 @@
             tel,
             first_image,
             mapx,
-            mapy
+            mapy,
+            area_code
         ) VALUES (
                      #{contentId},
                      #{title},
@@ -41,7 +42,8 @@
                      #{tel},
                      #{firstImage},
                      #{mapX},
-                     #{mapY}
+                     #{mapY},
+                     #{areaCode}
                  )
     </insert>
 
@@ -50,6 +52,8 @@
         FROM festival
         WHERE content_id = #{contentId}
     </select>
+
+    <!-- 행사 단일건 상세조회 -->
     <select id="selectFestivalDetail" parameterType="com.joblessfriend.tour.dto.TourFestivalDto">
         SELECT
             CONTENT_ID        AS contentId,

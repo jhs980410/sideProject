@@ -10,7 +10,7 @@ public class TourFestivalDto {
     private String eventStartDate;
     private String eventEndDate;
     private String tel;
-
+    private String areaCode;
     private String firstImage;
     private double mapX;
     private double mapY;

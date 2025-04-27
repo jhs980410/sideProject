@@ -27,6 +27,14 @@ public interface TourService {
             int pageNo,
             int numOfRows);
 
+    String getAreaBasedList(
+            String areaCode,
+            int numOfRows,
+            String contentTypeId,
+            String arrange,
+            int pageNo
+    );
+
     public String getLocationBasedList1Code(
             double mapX,
             double mapY,

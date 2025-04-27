@@ -1,18 +1,46 @@
 
-<header th:fragment="header">
-    <div class="header_top">
-        <input class="area" type="button" value="" onclick="">
-        <input class="area" type="button" value="" onclick="">
-        <input class="area" type="button" value="" onclick="">
-        <input class="area" type="button" value="" onclick="">
-        <input class="area" type="button" value="" onclick="">
-        <input class="area" type="button" value="" onclick="">
-        <input class="area" type="button" value="" onclick="">
-        <input class="area" type="button" value="" onclick="">
-        <input class="area" type="button" value="" onclick="">
-        <input class="area" type="button" value="" onclick="">
+<header class="header" th:fragment="header">
 
 
+
+    <div class="header-container">
+
+        <!-- 왼쪽: 로고 -->
+        <div class="header-left">
+            <div class="logo">로고</div>
+        </div>
+
+        <!-- 가운데: 메인 네비게이션 -->
+        <div class="header-center">
+            <nav class="nav-menu">
+                <button class="nav-item" id="area-toggle-btn">지역별보기</button>
+                <button class="nav-item">꼭 가봐야 할 곳</button>
+                <button class="nav-item">즐길거리</button>
+                <button class="nav-item">게시판</button>
+            </nav>
+        </div>
+
+        <!-- 오른쪽: 검색, 로그인, 아이콘 등 -->
+        <div class="header-right">
+            <button class="icon-btn">🔍</button> <!-- 검색 아이콘 -->
+            <button class="icon-btn">❤️</button> <!-- 즐겨찾기 아이콘 -->
+            <button class="icon-btn">로그인</button> <!-- 로그인 버튼 -->
+        </div>
+
+    </div>
+
+    <!-- 지역 리스트 (처음엔 숨겨짐) main.js (slideToggle) -->
+    <div id="area-list" style="display: none;">
+        <input class="area" type="button" value="" onclick="">
+        <input class="area" type="button" value="" onclick="">
+        <input class="area" type="button" value="" onclick="">
+        <input class="area" type="button" value="" onclick="">
+        <input class="area" type="button" value="" onclick="">
+        <input class="area" type="button" value="" onclick="">
+        <input class="area" type="button" value="" onclick="">
+        <input class="area" type="button" value="" onclick="">
+        <input class="area" type="button" value="" onclick="">
+        <input class="area" type="button" value="" onclick="">
     </div>
     <div style="text-align: center; margin-top: 10px;">
         <button class="btn btn-outline-primary" onclick="location.href='/map/naver'">
@@ -22,5 +50,10 @@
             📍 메인페이지
         </button>
     </div>
+    <script th:inline="javascript">
+        window.areaJsonTxt = [[${areaJson}]];  //전역객체 사용 //
+    </script>
+    <script src="/js/header.js"></script>
+<!--    외부js호출-->
 
 </header>

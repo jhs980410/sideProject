@@ -6,6 +6,8 @@
             integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
             crossorigin="anonymous">
     </script>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
@@ -51,14 +53,14 @@
 </main>
 
 <script th:inline="javascript">
-    let areaObj = [[${areaJson}]];
-    let areaJsonTxt = JSON.parse(areaObj);
-
-    let areaJsonList = areaJsonTxt.response.body.items.item;
-    $(".area").each(function(index) {
-        $(this).val(areaJsonList[index].name);
-        $(this).attr("data-code", areaJsonList[index].code);
-    });
+    // let areaObj = [[${areaJson}]];
+    // let areaJsonTxt = JSON.parse(areaObj);
+    //
+    // let areaJsonList = areaJsonTxt.response.body.items.item;
+    // $(".area").each(function(index) {
+    //     $(this).val(areaJsonList[index].name);
+    //     $(this).attr("data-code", areaJsonList[index].code);
+    // });
 
     let festivalObj = [[${festivalJson}]];
     let festivalJsonTxt = JSON.parse(festivalObj);

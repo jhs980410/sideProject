@@ -45,7 +45,7 @@ public class TourServiceImpl implements TourService {
                 .queryParam("MobileOS", "ETC")
                 .queryParam("MobileApp", "MyTourProject")
                 .queryParam("_type", "json")
-                .build(true)  // ⬅️ 이게 중요! true: 인코딩 방지
+                .build(true)  //  이게 중요, true: 인코딩 방지
                 .toUri();
 
         RestTemplate restTemplate = new RestTemplate();
@@ -128,6 +128,37 @@ public class TourServiceImpl implements TourService {
 
         return response.getBody();
     }
+
+    @Override
+    public String getAreaBasedList(
+            String areaCode,
+            int numOfRows,
+            String contentTypeId,
+            String arrange,
+            int pageNo
+    ) {
+        URI uri = UriComponentsBuilder
+                .fromHttpUrl("http://apis.data.go.kr/B551011/KorService1/areaBasedList1")
+                .queryParam("serviceKey", serviceKey)
+                .queryParam("MobileOS", "ETC")
+                .queryParam("MobileApp", "MyTourProject")
+                .queryParam("_type", "json")
+                .queryParam("areaCode", areaCode)
+                .queryParam("contentTypeId", contentTypeId)
+                .queryParam("arrange", arrange)
+                .queryParam("pageNo", pageNo)
+                .queryParam("numOfRows", numOfRows)
+                .build(true)
+                .toUri();
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+
+        System.out.println("응답결과: " + response.getBody());
+
+        return response.getBody();
+    }
+
 
 
     //위치기반 관광정보조회

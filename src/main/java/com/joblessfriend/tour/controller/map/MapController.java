@@ -30,7 +30,7 @@ public class MapController {
 
     @GetMapping("/naver")
     public String mapPage(Model model) throws JsonProcessingException {
-        String festValList = tourService.getFestivalList("20250422","20250722","D","Y",1,200);
+        String festValList = tourService.getFestivalList("20250422","20250722","D","Y",1,600);
         ObjectMapper objectMapper = new ObjectMapper();
         //Jackson 라이브러리의 ObjectMapper란, Java 객체를 JSON으로 또는 반대로 JSON을 Java 객체로 역직렬화하는 도구
         JsonNode root = objectMapper.readTree(festValList) ;
@@ -48,6 +48,7 @@ public class MapController {
             festival.setEventStartDate(item.path("eventstartdate").asText());
             festival.setTel(item.path("tel").asText());
             festival.setFirstImage(item.path("firstimage").asText());
+            festival.setAreaCode(item.path("areacode").asText());
             festivalList.add(festival);
         } // Jackson으로 JSON 파싱
 

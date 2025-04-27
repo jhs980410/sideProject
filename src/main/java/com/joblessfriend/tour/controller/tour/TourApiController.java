@@ -24,8 +24,7 @@ public class TourApiController {
     }
     @GetMapping("/main")
     public String getAreas(Model model) {
-        String result = tourService.getAreaCodes();
-        String festival = tourService.getFestivalList("20250401","20250430","D","Y",1,10);
+        String festival = tourService.getFestivalList("20250425","20250524","D","Y",1,10);
 
         model.addAttribute("festivalJson", festival);
 
@@ -33,13 +32,21 @@ public class TourApiController {
         return "index"; // resources/templates/index.html
 
     }
-
+    //관광지 단일 상세페이지
     @GetMapping("/detailView")
     public String getFestivalDetail(@RequestParam String contentId, Model model) {
         TourFestivalDto dto = tourService.selectFestivalDetail(contentId);
         model.addAttribute("festival", dto); // 객체 그대로 넘김
         System.out.println(dto.toString());
         return "tour/tourDetailView";
+    }
+    //지역별 리스트
+    @GetMapping("/areaList")
+    public String getAreaList(@RequestParam String areaCode, Model model) {
+        String areafestivalList = tourService.getAreaBasedList(areaCode,10,"1","A",1);
+
+        model.addAttribute("areafestivalList", areafestivalList);
+        return "tour/tourAreaList";
     }
 
 
