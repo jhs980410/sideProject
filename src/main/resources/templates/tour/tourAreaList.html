@@ -11,55 +11,83 @@
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/tourAreaList.css">
 </head>
 <body>
 <div th:replace="common/header :: header"></div>
-
+<h1 class="title">지역별 리스트</h1>
 <!--리스트 메인 -->
-<div class="main-container">
-    <table class="tour-board">
-        <thead>
-        <tr>
-            <th>번호</th>
-            <th>관광지 이름</th>
-            <th>지역</th>
-            <th>등록일</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>1</td>
-            <td><a href="/tour/detail/1">남산타워</a></td>
-            <td>서울</td>
-            <td>2025.04.27</td>
-        </tr>
-        <!-- 반복 -->
-        </tbody>
-    </table>
-</div>
+<div class="split-container">
 
 
-<!--사이드 지역 태그-->
-<div>
-    <div>
-        <p></p>
+    <div class="left">
+        <div class="tour-grid" id="tourList">
+
+        </div>
     </div>
+
+    <div class="right">
+        <div>
+            <div id="map" style="width:90%;height:500px;"></div>
+
+        </div>
+    </div>
+
 </div>
+
+
 
 
 <script th:inline="javascript">
-    let areaObj = [[${areaJson}]];   // 지역 코드들
-    let areaJsonTxt = JSON.parse(areaObj); // json변환
+    let initialData = [[${areafestivalList}]];
+    let parsedData = JSON.parse(initialData); //파싱먼저
 
-    let areaJsonList = areaJsonTxt.response.body.items.item;
+    console.log(parsedData);
+    $(document).ready(function () {
+        if (parsedData && parsedData.response && parsedData.response.body.items) {
+            parsedData.response.body.items.item.forEach(function(item) {
+                $('#tourList').append(`
+        <div class="tour-card">
+          <img src="${item.firstimage || 'default.jpg'}" alt="${item.title}">
+          <div class="card-body">
+            <div class="title">${item.title}</div>
+            <div class="address">${item.addr1 || '주소 없음'}</div>
+            <div class="tags">#${item.title.replace(/\s+/g, '')}</div>
+            <div><a href="#">상세보기</a></div>
+          </div>
+        </div>
+      `);
+            });
+        }
+    });
 
 
-    $(".area").each(function (index) {
-        $(this).val(areaJsonList[index].name);
-        $(this).attr("data-code", areaJsonList[index].code);
-    }); // 반복문 , 헤더에 삽입
+    //네이버 지도 ajax 호출 //
+    let naverClientId = '';
+
+    $.ajax({
+        url:'/map/api/naverMapClientId',
+        method:'GET',
+        success:function(data){
+            naverClientId = data;
+            const script = document.createElement('script');
+            script.src =`https://openapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${naverClientId}`;
+            document.head.appendChild(script);
+            script.onload = function () {
+                initMap();
+            }
+        }
+
+    });
+    function initMap() {
+        var map = new naver.maps.Map('map', {
+            center: new naver.maps.LatLng(37.5665, 126.9780),
+            zoom: 10
+        });
+    }
 
     </script>
 <script src="/js/main.js"></script>
+
 </body>
 </html>

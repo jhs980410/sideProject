@@ -154,7 +154,7 @@ public class TourServiceImpl implements TourService {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
 
-        System.out.println("응답결과: " + response.getBody());
+        System.out.println("지역별 응답결과: " + response.getBody());
 
         return response.getBody();
     }

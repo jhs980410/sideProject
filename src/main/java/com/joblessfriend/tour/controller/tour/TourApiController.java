@@ -40,10 +40,10 @@ public class TourApiController {
         System.out.println(dto.toString());
         return "tour/tourDetailView";
     }
-    //지역별 리스트
+    //지역별 행사리스트
     @GetMapping("/areaList")
     public String getAreaList(@RequestParam String areaCode, Model model) {
-        String areafestivalList = tourService.getAreaBasedList(areaCode,10,"1","A",1);
+        String areafestivalList = tourService.getAreaBasedList(areaCode,10,"12","A",1);
 
         model.addAttribute("areafestivalList", areafestivalList);
         return "tour/tourAreaList";
