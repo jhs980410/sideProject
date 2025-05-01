@@ -79,14 +79,59 @@
         }
 
     });
+
+    //지역별 중심부 마커처리 //
+    const regionName = {
+        '서울': { lat: 37.5665, lng: 126.9780 },
+        '인천': { lat: 37.4563, lng: 126.7052 },
+        '대전': { lat: 36.3504, lng: 127.3845 },
+        '대구': { lat: 35.8722, lng: 128.6025 },
+        '광주': { lat: 35.1595, lng: 126.8526 },
+        '부산': { lat: 35.1796, lng: 129.0756 },
+        '울산': { lat: 35.5384, lng: 129.3114 },
+        '세종특별자치시': { lat: 36.4800, lng: 127.2890 },
+        '경기도': { lat: 37.4138, lng: 127.5183 },
+        '강원특별자치도': { lat: 37.8228, lng: 128.1555 }
+    };
+
+
+    let map;
+    $(document).on('click', '.area', function () {
+        const region = $(this).val();
+        const coord = regionName[region];
+        console.log("아오" + coord.lat + "," + coord.lng);
+        if (coord && map) {
+            map.setCenter(new naver.maps.LatLng(coord.lat, coord.lng));
+        }
+    });
+
     function initMap() {
-        var map = new naver.maps.Map('map', {
+        map = new naver.maps.Map('map', {
             center: new naver.maps.LatLng(37.5665, 126.9780),
             zoom: 10
         });
+
+        // 마커
+        if (parsedData && parsedData.response && parsedData.response.body.items) {
+            parsedData.response.body.items.item.forEach(item => {
+                if (item.mapx && item.mapy && Number(item.mapx) !== 0 && Number(item.mapy) !== 0) {
+                    const marker = new naver.maps.Marker({
+                        position: new naver.maps.LatLng(item.mapy, item.mapx),
+                        map: map,
+                        title: item.title
+                    });
+
+                    naver.maps.Event.addListener(marker, 'click', function () {
+                        const infoWindow = new naver.maps.InfoWindow();
+                        infoWindow.setContent(`<div style="padding:20px;">${item.title}<br><a href="#">상세보기</a></div>`);
+                        infoWindow.open(map, marker);
+                    });
+                }
+            });
+        }
     }
 
-    </script>
+</script>
 <script src="/js/main.js"></script>
 
 </body>

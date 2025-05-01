@@ -24,7 +24,7 @@ public class TourApiController {
     }
     @GetMapping("/main")
     public String getAreas(Model model) {
-        String festival = tourService.getFestivalList("20250425","20250524","D","Y",1,10);
+        String festival = tourService.getFestivalList("20250501","20250524","D","Y",1,10);
 
         model.addAttribute("festivalJson", festival);
 
